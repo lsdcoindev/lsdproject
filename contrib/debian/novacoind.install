@@ -1,0 +1,2 @@
+debian/bin/LSDCoind usr/bin
+src/LSDCoind usr/lib/LSDCoin

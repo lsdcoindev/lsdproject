@@ -1,0 +1,11 @@
+[Protocol]
+exec=LSDCoin-qt '%u'
+protocol=LSDCoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

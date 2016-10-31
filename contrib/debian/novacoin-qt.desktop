@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=LSDCoin
+Comment=LSDCoin P2P Cryptocurrency
+Comment[ru]=LSDCoin, P2P криптовалюта
+Comment[fr]=LSDCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=LSDCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/LSDCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/LSDCoin80.xpm
+MimeType=x-scheme-handler/LSDCoin;
+Categories=Office;

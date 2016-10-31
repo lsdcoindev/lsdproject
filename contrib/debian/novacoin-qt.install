@@ -1,0 +1,5 @@
+LSDCoin-qt usr/bin
+share/pixmaps/LSDCoin32.xpm usr/share/pixmaps
+share/pixmaps/LSDCoin80.xpm usr/share/pixmaps
+debian/LSDCoin-qt.desktop usr/share/applications
+debian/LSDCoin-qt.protocol usr/share/kde4/services/

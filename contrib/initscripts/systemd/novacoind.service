@@ -1,0 +1,11 @@
+[Unit]
+Description=LSDCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=LSDCoin
+ExecStart=/opt/LSDCoin/LSDCoind
+
+[Install]
+WantedBy=multi-user.target

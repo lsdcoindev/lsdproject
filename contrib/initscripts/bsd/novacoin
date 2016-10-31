@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: LSDCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# LSDCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable LSDCoin service.
+# LSDCoin_config (path): Set to /usr/local/etc/LSDCoin.conf by default.
+# LSDCoin_user:  The user account LSDCoin daemon runs as. It uses 'root' user by default.
+# LSDCoin_group: The group account LSDCoin daemon runs as. It uses 'wheel' group by default.
+# LSDCoin_datadir (str): Default to "/var/db/LSDCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=LSDCoin
+rcvar=LSDCoin_enable
+
+: ${LSDCoin_enable:=NO}
+: ${LSDCoin_config=/usr/local/etc/LSDCoin.conf}
+: ${LSDCoin_datadir=/var/db/LSDCoin}
+: ${LSDCoin_user="root"}
+: ${LSDCoin_group="wheel"}
+
+required_files=${LSDCoin_config}
+command=/usr/local/bin/LSDCoind
+LSDCoin_chdir=${LSDCoin_datadir}
+pidfile="${LSDCoin_datadir}/LSDCoind.pid"
+stop_cmd=LSDCoin_stop
+command_args="-conf=${LSDCoin_config} -datadir=${LSDCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+LSDCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${LSDCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${LSDCoin_user}:${LSDCoin_group} ${LSDCoin_datadir}
+}
+
+LSDCoin_prestart()
+{
+	if [ ! -d "${LSDCoin_datadir}/." ]; then
+		LSDCoin_create_datadir || return 1
+	fi
+}
+
+LSDCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+LSDCoin_stop()
+{
+    LSDCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${LSDCoin_config} -datadir=${LSDCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"
